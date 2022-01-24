@@ -1,7 +1,7 @@
 import { Enemy_Base } from "./base/enemy_base";
 import { Entity_Base } from "./base/entity_base";
 import { Round_Controller } from "./round_controller";
-import { Upgrade, Upgrade_Manager, Upgrade_Names } from "./util/upgrade";
+import { Upgrade, Upgrade_Currencies, Upgrade_Manager, Upgrade_Names } from "./util/upgrade";
 import { Settings } from "./util/settings";
 import { Util } from "./util/util";
 
@@ -14,18 +14,18 @@ export class Game_Controller {
       private roundExpireTime: number = 0;
       private roundResetTimer: number = 5000;
 
-      public playerEnergy: number = 0;
+      public playerCurrency: Map<Upgrade_Currencies, number> = new Map();
 
       constructor() {
             this.currentRound = new Round_Controller()
+            this.playerCurrency.set(Upgrade_Currencies.ENERGY, 0);
+            this.playerCurrency.set(Upgrade_Currencies.BATTERY, 0);
 
-            // this.dmgUpgrade.screenName = "Damage";
-            // this.dmgUpgrade.level = 0;
-            // this.dmgUpgrade.value = 1;
-            // this.dmgUpgrade.valueInc = 1;
-            // this.dmgUpgrade.startingCost = 1;
-            // this.dmgUpgrade.currentCost = 1;
-            // this.dmgUpgrade.costMulti = 1;
+            Upgrade_Manager.init();
+      }
+
+      getCurrency(currency: Upgrade_Currencies) {
+            return this.playerCurrency.get(currency) || 0;
       }
 
       increaseUpgrade(upgradeName: string) {
@@ -34,12 +34,15 @@ export class Game_Controller {
       }
 
       startCurrentRound() {
+            this.playerCurrency.set(Upgrade_Currencies.ENERGY, 0);
+            Upgrade_Manager.resetRoundUpgrades();
             this.currentRound.applyUpgrades();
             this.currentRound.startRound();
             // this.endRound();
       }
 
       restartRound() {
+            Entity_Base.entities = [];
             this.currentRound = new Round_Controller();
             this.startCurrentRound();
       }
@@ -52,13 +55,13 @@ export class Game_Controller {
             Entity_Base.entities = [];
       }
 
-      canAfford(amount: number) {
-            return this.playerEnergy > amount;
+      canAfford(currency: Upgrade_Currencies, amount: number) {
+            return this.getCurrency(currency) > amount;
       }
 
-      canAffordAndPay(amount: number) {
-            if (this.canAfford(amount)) {
-                  this.playerEnergy -= amount;
+      canAffordAndPay(currency: Upgrade_Currencies, amount: number) {
+            if (this.playerCurrency.has(currency) && this.canAfford(currency, amount)) {
+                  this.playerCurrency.set(currency, this.getCurrency(currency) - amount);
                   return true;
             }
             return false
@@ -73,7 +76,8 @@ export class Game_Controller {
             }
 
             if (!this.roundOver) {
-                  this.playerEnergy += 1 * Upgrade_Manager.getValue(Upgrade_Names.EnergyGen);
+                  const curr = this.getCurrency(Upgrade_Currencies.ENERGY);
+                  this.playerCurrency.set(Upgrade_Currencies.ENERGY, curr + 1 * Upgrade_Manager.getValue(Upgrade_Names.EnergyGen));
             }
       }
 

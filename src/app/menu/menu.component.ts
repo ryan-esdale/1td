@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Entity_Base } from '../objects/base/entity_base';
 import { Tower } from '../objects/tower';
 import { Settings } from '../objects/util/settings';
-import { Upgrade, Upgrade_Manager } from '../objects/util/upgrade';
+import { Upgrade, Upgrade_Currencies, Upgrade_Manager } from '../objects/util/upgrade';
 import { GameService } from '../scene/services/game.service';
 
 @Component({
@@ -13,6 +13,7 @@ import { GameService } from '../scene/services/game.service';
 export class MenuComponent implements OnInit {
 
   public upgrades: Upgrade[] = [];
+  public upgradeCurrencies = Upgrade_Currencies;
   public menuW: number = Settings.menuW;
 
   constructor(
@@ -32,7 +33,7 @@ export class MenuComponent implements OnInit {
   }
 
   canAfford(u: Upgrade) {
-    return GameService.gameController.canAfford(u.currentCost);
+    return GameService.gameController.canAfford(u.currency, u.currentCost);
   }
 
   increase(u: Upgrade) {

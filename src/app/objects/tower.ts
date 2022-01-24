@@ -9,14 +9,14 @@ import { Particle_Spawner } from "./particle_spawner";
 import { Projectile } from "./projectile";
 import { Colour } from "./util/colour";
 import { Settings } from "./util/settings";
-import { Upgrade_Manager, Upgrade_Names } from "./util/upgrade";
+import { Upgrade_Currencies, Upgrade_Manager, Upgrade_Names } from "./util/upgrade";
 import { Util } from "./util/util";
 
 export class Tower extends Unit_Base {
 
-      private range: number = 300;
+      public range: number = 300;
       private shootCD: number = 0;
-      private defaultShootCD: number = 20;
+      public defaultShootCD: number = 20;
 
       constructor(x: number, y: number, w: number, h: number, hp: number, dmg: number) {
             super(x, y, w, h, hp, dmg);
@@ -26,7 +26,8 @@ export class Tower extends Unit_Base {
             this.colour = new Colour(255, 0, 0, 1);
             this.faction = Faction.FRIENDLY;
             this.collision = true;
-            this.rotSpeed = Upgrade_Manager.getValue(Upgrade_Names.TurnRate);
+            this.rotSpeed = 0.01 * Upgrade_Manager.getValue(Upgrade_Names.TurnRate);
+            this.defaultShootCD = 100 * Upgrade_Manager.getValue(Upgrade_Names.RoF);
       }
 
       override spawn(): void {
@@ -70,7 +71,7 @@ export class Tower extends Unit_Base {
             rC.lineWidth = 1;
             rC.strokeText("HP: " + this.hp + "/" + this.maxHP, 40, 120);
 
-            rC.strokeText("Energy: " + GameService.gameController.playerEnergy.toFixed(2), this.x - 20, this.y - 100);
+            rC.strokeText("Energy: " + GameService.gameController.getCurrency(Upgrade_Currencies.ENERGY).toFixed(2), this.x - 20, this.y - 100);
 
             //Draw targeting ring
             let ringColour = Colour.fromColour(this.colour);
@@ -93,7 +94,7 @@ export class Tower extends Unit_Base {
                   return;
             }
 
-            if (GameService.gameController.canAffordAndPay(1)) {
+            if (GameService.gameController.canAffordAndPay(Upgrade_Currencies.ENERGY, 1)) {
                   let bullet = new Projectile(
                         this.x,
                         this.y,
@@ -103,7 +104,20 @@ export class Tower extends Unit_Base {
                   );
                   bullet.dmg = this.dmg;
                   bullet.faction = this.faction;
+                  // let bullet2 = Object.create(bullet);
+                  // let bullet3 = Object.create(bullet);
+                  // let bullet4 = Object.create(bullet);
+                  // let bullet5 = Object.create(bullet);
+
+                  // bullet2.dir = bullet2.dir - 0.2;
+                  // bullet3.dir = bullet3.dir + 0.2;
+                  // bullet4.dir = bullet4.dir - 0.4;
+                  // bullet5.dir = bullet5.dir + 0.4;
                   bullet.spawn();
+                  // bullet2.spawn();
+                  // bullet3.spawn();
+                  // bullet4.spawn();
+                  // bullet5.spawn();
             }
 
             this.shootCD = this.defaultShootCD;

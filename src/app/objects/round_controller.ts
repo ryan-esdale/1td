@@ -13,24 +13,26 @@ export class Round_Controller {
       public wavesControllers: Wave_Controller[] = [];
 
       constructor() {
-            this.playerTower = new Tower(Settings.screenW / 2, Settings.screenH / 2, 50, 50, 4, 1);
+            this.playerTower = new Tower(Settings.screenW / 2, Settings.screenH / 2, 50, 50, 5, 1);
 
-            const dummy = new Enemy_Base(400, 750, 20, 20, 2, 1);
+            const dummy = new Enemy_Base(400, 750, 20, 20, 1, 1);
             dummy.colour = new Colour(0, 200, 0, 1);
             dummy.speed = 1;
             const chad = new Enemy_Base(0, 0, 40, 40, 4, 4);
             chad.colour = new Colour(200, 0, 0, 1);
             chad.speed = 0.5;
 
-            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy));
+            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
             this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, chad, 500));
-            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 5));
-            this.wavesControllers[1].lastSpawn = 500;
-            this.wavesControllers[2].lastSpawn = 800;
+            // this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 5));
+            this.wavesControllers[1].lastSpawn = 1500;
+            // this.wavesControllers[2].lastSpawn = 800;
       }
 
       applyUpgrades() {
             this.playerTower.dmg = 1 * Upgrade_Manager.getValue(Upgrade_Names.DMG);
+            this.playerTower.rotSpeed = 0.01 * Upgrade_Manager.getValue(Upgrade_Names.TurnRate);
+            this.playerTower.defaultShootCD = 100 / (Upgrade_Manager.getValue(Upgrade_Names.RoF));
       }
 
       startRound() {
