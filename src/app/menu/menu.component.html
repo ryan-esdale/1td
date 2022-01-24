@@ -1,0 +1,68 @@
+<!-- <button class="btn btn-primary" (click)="deleteAllEntities()">Kill all ents</button><br> -->
+<div class="container menu-window" [ngStyle]="{'width': menuW+'px' }">
+      <div>
+            UPGRADES
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 12v.01"></path>
+                  <path
+                        d="M19.071 4.929a4 10 45 0 0-9.9 4.243a4 10 45 0 0-4.242 9.9a4 10 45 0 0 9.9-4.244a4 10 45 0 0 4.242-9.9">
+                  </path>
+                  <path
+                        d="M4.929 4.929a10 4 45 0 0 4.243 9.9a10 4 45 0 0 9.9 4.242a10 4 45 0 0-4.244-9.9a10 4 45 0 0-9.9-4.242">
+                  </path>
+            </g>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+            <path d="M11 11v10h10V11zm8 8h-6v-6h6z" fill="currentColor"></path>
+            <path d="M30 13v-2h-4V8a2 2 0 0 0-2-2h-3V2h-2v4h-6V2h-2v4H8a2 2 0 0 0-2 2v3H2v2h4v6H2v2h4v3a2 2 0 0 0 2 2h3v4h2v-4h6v4h2v-4h3a2 2 0 0 0 2-2v-3h4v-2h-4v-6zm-6 11H8V8h16z"
+                  fill="currentColor"></path>
+      </svg> -->
+            <!-- <button class="n-button n-button--default-type n-button--medium-type n-button--color n-button--ghost" tabindex="0"
+            type="button"
+            style="--n-bezier:cubic-bezier(0.4, 0, 0.2, 1); --n-bezier-ease-out:cubic-bezier(0, 0, 0.2, 1); --n-ripple-duration:0.6s; --n-opacity-disabled:0.38; --n-wave-opacity:0.8; font-weight: 400; --n-color:#0000; --n-color-hover:#0000; --n-color-pressed:#0000; --n-color-focus:#0000; --n-color-disabled:#0000; --n-ripple-color:#F72585; --n-text-color:#F72585; --n-text-color-hover:rgba(248, 72, 153, 1); --n-text-color-pressed:rgba(217, 33, 117, 1); --n-text-color-focus:rgba(248, 72, 153, 1); --n-text-color-disabled:#F72585; --n-border:1px solid rgba(255, 255, 255, 0.24); --n-border-hover:1px solid #7fe7c4; --n-border-pressed:1px solid #5acea7; --n-border-focus:1px solid #7fe7c4; --n-border-disabled:1px solid rgba(255, 255, 255, 0.24); --n-width: initial; --n-height:34px; --n-font-size:14px; --n-padding:0 18px; --n-icon-size:18px; --n-icon-margin:6px; --n-border-radius:34px;">
+            <span class="n-button__icon">
+                  <div class="n-icon-slot" role="none"><svg xmlns="http://www.w3.org/2000/svg"
+                              xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+                              <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 12v.01"></path>
+                                    <path
+                                          d="M19.071 4.929a4 10 45 0 0-9.9 4.243a4 10 45 0 0-4.242 9.9a4 10 45 0 0 9.9-4.244a4 10 45 0 0 4.242-9.9">
+                                    </path>
+                                    <path
+                                          d="M4.929 4.929a10 4 45 0 0 4.243 9.9a10 4 45 0 0 9.9 4.242a10 4 45 0 0-4.244-9.9a10 4 45 0 0-9.9-4.242">
+                                    </path>
+                              </g>
+                        </svg></div>
+            </span><span class="n-button__content"><span>Physics</span></span>
+            <div aria-hidden="true" class="n-base-wave"></div>
+            <div aria-hidden="true" class="n-button__border"
+                  style="--n-border-color:#F72585; --n-border-color-hover:rgba(248, 72, 153, 1); --n-border-color-pressed:rgba(217, 33, 117, 1); --n-border-color-focus:rgba(248, 72, 153, 1); --n-border-color-disabled:#F72585;">
+            </div>
+            <div aria-hidden="true" class="n-button__state-border"
+                  style="--n-border-color:#F72585; --n-border-color-hover:rgba(248, 72, 153, 1); --n-border-color-pressed:rgba(217, 33, 117, 1); --n-border-color-focus:rgba(248, 72, 153, 1); --n-border-color-disabled:#F72585;">
+            </div>
+      </button> -->
+      </div>
+
+      <div *ngFor="let upgrade of upgrades">
+            <button class="b-menu b-menu-upgrade"
+                  [ngClass]="canAfford(upgrade)?'b-menu-upgrade-afford':'b-menu-upgrade-no-afford'"
+                  (click)="increase(upgrade)">
+                  {{upgrade.screenName}}: {{upgrade.value}} -> {{upgrade.value+upgrade.valueInc}} (
+                  <!-- <div class="i-menu"> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="4 -5 10 24" height="50">
+                        <g fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round"
+                              stroke-linejoin="">
+                              <path d="M 5 5 L 7 2 L 11 2 L 8 5 L 11 9 L 7 13 L 8 9 L 5 5">
+                              </path>
+                        </g>
+                  </svg>
+                  <!-- </div> -->
+                  x{{upgrade.currentCost|number:'1.0-2' }})
+            </button>
+      </div>
+</div>

@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+      background-color: rgb(15,15,20);
+      color: white;
+}
+
+.b-menu {
+      background-color: rgba(0,0,0,0);
+      width: 100%;
+      text-align: center;
+      color: white;
+      border-radius: 140px;
+      border-color: white;
+      border-width: 1px;
+      border-style: solid;
+      margin-top: 8px;
+}
+
+.b-menu-upgrade-afford{
+      color: rgb(0, 255, 0);
+      border-color: rgb(0, 255, 0);
+}
+
+.b-menu-upgrade-no-afford{
+      color: rgb(255, 0, 0);
+      border-color: rgb(255, 0, 0);
+}
+
+.i-menu {
+      width: 24;
+      height: 24;
+}
+
+.container{
+      display: flex;
+}
+
+.container .game-window{
+      background-color: blue;
+}
+
+.container .menu-window{
+      flex-direction: column;
+      /* width: 300px; */
+}

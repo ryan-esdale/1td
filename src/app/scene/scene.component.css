@@ -1,0 +1,12 @@
+.scene {
+      height: 100%;
+      width: 100%;
+      /* position: relative; */
+}
+
+.scene canvas {
+      height: 1275px;
+      width: 950px;
+      border: 1px solid black;
+      /* position: absolute; */
+}

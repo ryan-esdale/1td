@@ -1,0 +1,5 @@
+
+
+Manual aiming turret which can be disabled for a % increase of power
+
+After maxing rot speed a further tier which allows shooting in all directions (instant turnspeed)
