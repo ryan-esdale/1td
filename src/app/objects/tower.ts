@@ -1,3 +1,4 @@
+import { textChangeRangeIsUnchanged } from "typescript";
 import { DrawService } from "../scene/services/draw.service";
 import { GameService } from "../scene/services/game.service";
 import { GridService } from "./background/services/grid.service";
@@ -88,9 +89,12 @@ export class Tower extends Unit_Base {
       }
 
       override shoot(x: number, y: number): void {
-            if (
-                  this.shootCD > 0 ||
-                  !this.aimAt(x, y)) {
+
+            if (!this.aimAt(x, y)) {
+                  return;
+            }
+
+            if (this.shootCD > 0) {
                   return;
             }
 
@@ -133,8 +137,9 @@ export class Tower extends Unit_Base {
 
             const targetList = Entity_Base.entities.filter(e => { return e.faction != this.faction && this.distanceTo(e) < this.range });
             const closest = targetList.sort((a, b) => (this.distanceTo(a) - this.distanceTo(b)))[0];
-            if (closest)
+            if (closest) {
                   this.shoot(closest.x, closest.y);
+            }
             // Entity_Base.entities.forEach(e => {
             //       //Don't shoot at yourself silly
             //       if (e === this)

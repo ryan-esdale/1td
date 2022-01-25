@@ -1,0 +1,28 @@
+.title {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      font-size: 36pt;
+}
+
+.tab-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      /* background-color: green; */
+}
+
+.tab {
+      width: 120px;
+      margin-left: 10px;
+      padding-left: 5px;
+      border-bottom: 2px red solid;
+      transition: background-color 1s;
+      transition-timing-function: cubic-bezier(.19,.77,1,.64);
+}
+
+.tab:hover{
+      background-color: rgb(60,60,60);
+      border-color: white;
+}

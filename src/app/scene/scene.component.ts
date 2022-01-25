@@ -48,8 +48,13 @@ export class SceneComponent implements OnInit, AfterViewInit {
   }
 
   doResize() {
-    Settings.screenW = Math.floor((window.innerWidth - Settings.menuW) / Settings.gridSpacing) * Settings.gridSpacing;
-    Settings.screenH = Math.floor((window.innerHeight) / Settings.gridSpacing) * Settings.gridSpacing;
+
+    if (window.innerWidth > 1250) {
+      Settings.screenW = Math.floor((window.innerWidth) / Settings.gridSpacing) * Settings.gridSpacing;
+    } else {
+      Settings.screenW = Math.floor((window.innerWidth - Settings.menuW) / Settings.gridSpacing) * Settings.gridSpacing;
+    }
+    Settings.screenH = Math.floor((window.innerHeight - Settings.navH) / Settings.gridSpacing) * Settings.gridSpacing;
     // console.log(Settings.screenW + " - " + Settings.screenH);
     const xDiff = Settings.screenW - this.sceneW;
     const yDiff = Settings.screenH - this.sceneH;

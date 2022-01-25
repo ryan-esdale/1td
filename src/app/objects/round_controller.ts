@@ -18,12 +18,12 @@ export class Round_Controller {
             const dummy = new Enemy_Base(400, 750, 20, 20, 1, 1);
             dummy.colour = new Colour(0, 200, 0, 1);
             dummy.speed = 1;
-            const chad = new Enemy_Base(0, 0, 40, 40, 4, 4);
+            const chad = new Enemy_Base(0, 0, 40, 40, 4, 1);
             chad.colour = new Colour(200, 0, 0, 1);
             chad.speed = 0.5;
 
             this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
-            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, chad, 500));
+            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, chad, 1250));
             // this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 5));
             this.wavesControllers[1].lastSpawn = 1500;
             // this.wavesControllers[2].lastSpawn = 800;

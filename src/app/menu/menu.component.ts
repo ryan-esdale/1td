@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
   public upgrades: Upgrade[] = [];
   public upgradeCurrencies = Upgrade_Currencies;
   public menuW: number = Settings.menuW;
+  public showMenu = true;
 
   constructor(
     // private gameService: GameService
@@ -38,5 +39,9 @@ export class MenuComponent implements OnInit {
 
   increase(u: Upgrade) {
     GameService.gameController.increaseUpgrade(u.name);
+  }
+
+  toggleShow(): void {
+    this.showMenu = !this.showMenu;
   }
 }

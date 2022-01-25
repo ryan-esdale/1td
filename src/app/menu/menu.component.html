@@ -1,5 +1,7 @@
-<!-- <button class="btn btn-primary" (click)="deleteAllEntities()">Kill all ents</button><br> -->
-<div class="container menu-window" [ngStyle]="{'width': menuW+'px' }">
+<div style="position: absolute; right: 425px; top: 550%">
+      <button (click)="toggleShow()">{{showMenu? '&gt;':'&lt;'}}</button>
+</div>
+<div class="menu-window" style="min-height: 100%;" [ngClass]="showMenu ? 'shown' : 'hidden'">
       <div>
             UPGRADES
             <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
@@ -51,7 +53,8 @@
             <button class="b-menu b-menu-upgrade"
                   [ngClass]="canAfford(upgrade)?'b-menu-upgrade-afford':'b-menu-upgrade-no-afford'"
                   (click)="increase(upgrade)">
-                  {{upgrade.screenName}}: {{upgrade.value}} -> {{upgrade.value+upgrade.valueInc}} (
+                  {{upgrade.screenName}}: {{upgrade.value|number:'1.0-2'}} ->
+                  {{upgrade.value+upgrade.valueInc|number:'1.0-2'}} (
                   <!-- <div class="i-menu"> -->
                   <svg *ngIf="upgrade.currency == upgradeCurrencies.ENERGY" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="4 -5 10 24" height="50">
