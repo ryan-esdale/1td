@@ -10,7 +10,7 @@ export class Grid {
       private numColumns: number;
       private numRows: number;
       private spacing: number;
-      private colour = new Colour(0, 0, 255, 0.5);
+      private colour = new Colour(0, 0, 255, 0.8);
 
       constructor(w: number, h: number, spacing: number) {
             this.numColumns = w / spacing + 1;

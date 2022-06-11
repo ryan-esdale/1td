@@ -9,12 +9,14 @@ export class Game_Controller {
 
       public currentRound: Round_Controller;
 
-      private roundOver: boolean = false;
-      private autoRestart: boolean = true
+      public roundOver: boolean = false;
+
+      private autoRestart: boolean = false
       private roundExpireTime: number = 0;
       private roundResetTimer: number = 5000;
 
       public playerCurrency: Map<Upgrade_Currencies, number> = new Map();
+
 
       constructor() {
             this.currentRound = new Round_Controller()
@@ -76,20 +78,22 @@ export class Game_Controller {
             }
 
             if (!this.roundOver) {
-                  const curr = this.getCurrency(Upgrade_Currencies.ENERGY);
-                  this.playerCurrency.set(Upgrade_Currencies.ENERGY, curr + 1 * Upgrade_Manager.getValue(Upgrade_Names.EnergyGen));
+                  const currentEnergy = this.getCurrency(Upgrade_Currencies.ENERGY);
+                  this.playerCurrency.set(Upgrade_Currencies.ENERGY, currentEnergy + 1 * Upgrade_Manager.getValue(Upgrade_Names.EnergyGen));
             }
       }
 
       draw(rC: CanvasRenderingContext2D) {
             if (this.roundOver) {
+                  rC.save();
                   rC.font = rC.font.replace(/\d+px/, "48px");
                   rC.fillStyle = "white";
-                  rC.fillText("GAME OVER", Settings.screenW / 2 - 148, Settings.screenH / 2 - 200);
+                  rC.fillText("GAME OVER", Settings.screenW / 2 - 140, Settings.screenH / 2 - 200);
                   if (this.autoRestart) {
                         rC.font = rC.font.replace(/\d+px/, "24px");
                         rC.fillText("RESTARTING IN " + (5000 - (new Date().getTime() - this.roundExpireTime)) / 1000, Settings.screenW / 2 - 125, Settings.screenH / 2 - 175);
                   }
+                  rC.restore();
             }
       }
 }

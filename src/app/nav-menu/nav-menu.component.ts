@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Unlockable_Names, Unlock_Progression } from '../objects/util/unlock-progression';
 
 @Component({
   selector: 'app-nav-menu',
@@ -13,6 +14,10 @@ export class NavMenuComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  showTabs(): boolean {
+    return Unlock_Progression.unlocked(Unlockable_Names.MENU_TABS);
   }
 
   ngAfterViewInit(): void {

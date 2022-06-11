@@ -1,4 +1,5 @@
 import { GameService } from "src/app/scene/services/game.service";
+import { Unlockable_Names } from "./unlock-progression";
 
 export enum Upgrade_Names {
       DMG = "damage",
@@ -27,7 +28,7 @@ export interface Upgrade {
       startingCost: number;
       currentCost: number;
       costMulti: number;
-      tier?: number;
+      tier: Unlockable_Names;
 }
 
 export class Upgrade_Manager {
@@ -65,7 +66,7 @@ export class Upgrade_Manager {
       static resetRoundUpgrades() {
 
             Upgrade_Manager.Upgrade_List.forEach(u => {
-                  if (u.tier == 0) {
+                  if (u.tier == Unlockable_Names.TIER0) {
                         const defaultVersion = Upgrade_Manager.Default_Upgrade_List.find(d => d.name == u.name);
                         if (defaultVersion) {
                               // u = Object.create(defaultVersion);
@@ -93,7 +94,7 @@ export class Upgrade_Manager {
                   startingCost: 5,
                   currentCost: 5,
                   costMulti: 1.1,
-                  tier: 0,
+                  tier: Unlockable_Names.TIER0,
             },
             {
                   name: Upgrade_Names.RoF,
@@ -105,7 +106,7 @@ export class Upgrade_Manager {
                   startingCost: 5,
                   currentCost: 5,
                   costMulti: 1.15,
-                  tier: 0,
+                  tier: Unlockable_Names.TIER0,
             },
             {
                   name: Upgrade_Names.TurnRate,
@@ -117,7 +118,7 @@ export class Upgrade_Manager {
                   startingCost: 10,
                   currentCost: 10,
                   costMulti: 1.15,
-                  tier: 0,
+                  tier: Unlockable_Names.TIER0,
             },
             {
                   name: Upgrade_Names.EnergyGen,
@@ -129,7 +130,7 @@ export class Upgrade_Manager {
                   startingCost: 10,
                   currentCost: 10,
                   costMulti: 1.15,
-                  tier: 0,
+                  tier: Unlockable_Names.TIER0,
             },
             {
                   name: Upgrade_Names.BatteryCapacity,
@@ -141,7 +142,7 @@ export class Upgrade_Manager {
                   startingCost: 1,
                   currentCost: 1,
                   costMulti: 1,
-                  tier: 1
+                  tier: Unlockable_Names.TIER1,
             }
       ]
 

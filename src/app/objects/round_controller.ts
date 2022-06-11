@@ -24,7 +24,7 @@ export class Round_Controller {
 
             this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
             this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, chad, 1250));
-            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
+            // this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
             this.wavesControllers[1].lastSpawn = 1500;
             // this.wavesControllers[2].lastSpawn = 800;
       }

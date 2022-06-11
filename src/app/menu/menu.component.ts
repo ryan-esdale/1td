@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Entity_Base } from '../objects/base/entity_base';
 import { Tower } from '../objects/tower';
 import { Settings } from '../objects/util/settings';
+import { Unlock_Progression } from '../objects/util/unlock-progression';
 import { Upgrade, Upgrade_Currencies, Upgrade_Manager } from '../objects/util/upgrade';
 import { GameService } from '../scene/services/game.service';
 
@@ -15,12 +16,16 @@ export class MenuComponent implements OnInit {
   public upgrades: Upgrade[] = [];
   public upgradeCurrencies = Upgrade_Currencies;
   public menuW: number = Settings.menuW;
+  public toggleButtonHeight: number = Settings.screenH / 2;
   public showMenu = true;
 
-  constructor(
-    // private gameService: GameService
-  ) {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    // this.doResize();
+    this.toggleButtonHeight = window.innerHeight / 2;
   }
+
+  constructor() { }
 
   ngOnInit(): void {
     this.upgrades = Upgrade_Manager.Upgrade_List;
@@ -33,6 +38,10 @@ export class MenuComponent implements OnInit {
     })
   }
 
+  isUnlocked(u: Upgrade) {
+    return Unlock_Progression.unlocked(u.tier)
+  }
+
   canAfford(u: Upgrade) {
     return GameService.gameController.canAfford(u.currency, u.currentCost);
   }
@@ -43,5 +52,9 @@ export class MenuComponent implements OnInit {
 
   toggleShow(): void {
     this.showMenu = !this.showMenu;
+  }
+
+  roundActive(): boolean {
+    return !GameService.gameController.roundOver
   }
 }
