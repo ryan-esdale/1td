@@ -39,7 +39,16 @@ export class Tower extends Unit_Base {
 
       override draw(rC: CanvasRenderingContext2D): void {
 
-            // rC.save();
+            rC.save();
+            rC.strokeStyle = "white";
+
+            //Draw shot timer indicator
+            rC.beginPath()
+            rC.lineWidth = 8;
+            rC.strokeStyle = new Colour(255, 255, 200, 0.8).toString();
+            rC.arc(this.x, this.y, this.w, -Math.PI / 2, (Math.PI * 2) * (Math.max(this.shootCD, 0) / this.defaultShootCD) - Math.PI / 2, true);
+            rC.stroke();
+
             //Draw the tower
             this.colour.a = 1;
             rC.beginPath();
@@ -52,21 +61,6 @@ export class Tower extends Unit_Base {
             rC.arc(this.x + Math.cos(this.dir) * 40, this.y + Math.sin(this.dir) * 40, 20, 0, Math.PI * 2);
             rC.closePath();
             rC.fill();
-
-            // rC.save();
-            // rC.globalCompositeOperation = "destination-out"
-            // rC.beginPath()
-            // rC.arc(this.x + Math.cos(this.dir) * 50, this.y + Math.sin(this.dir) * 50, 20, 0, Math.PI * 2);
-            // rC.fill()
-            // rC.restore();
-
-            // const x = this.x + Math.cos(this.dir) * 50;
-            // const y = this.y + Math.sin(this.dir) * 50;
-            // const r = 20;
-            // for (var i = 0; i < Math.round(Math.PI * r); i++) {
-            //       var angle = (i / Math.round(Math.PI * r)) * 360;
-            //       rC.clearRect(x, y, Math.sin(angle * (Math.PI / 180)) * r, Math.cos(angle * (Math.PI / 180)) * r);
-            // }
 
             rC.strokeStyle = "white";
             rC.lineWidth = 1;
@@ -85,7 +79,7 @@ export class Tower extends Unit_Base {
             rC.stroke();
 
             rC.lineWidth = 1;
-            // rC.restore();
+            rC.restore();
       }
 
       override shoot(x: number, y: number): void {

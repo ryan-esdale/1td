@@ -1,0 +1,8 @@
+<div class="container small">
+      <app-alert *ngFor="let alert of getSmallAlerts()" [alert]="alert"></app-alert>
+      <div *ngIf="getSmallAlerts().length > 0" style="text-align: right;"> Clear All <button
+                  (click)="clearSmallAlerts()">X</button></div>
+</div>
+<div class="container dialog">
+      <app-alert *ngFor="let alert of getDialogAlerts()" [alert]="alert"></app-alert>
+</div>

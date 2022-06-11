@@ -9,6 +9,8 @@ import { MenuComponent } from './menu/menu.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { TruncPipe } from './objects/util/trunc.pipe';
+import { AlertsComponent } from './alerts/alerts.component';
+import { AlertComponent } from './alerts/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { TruncPipe } from './objects/util/trunc.pipe';
     SceneComponent,
     MenuComponent,
     NavMenuComponent,
-    TruncPipe
+    TruncPipe,
+    AlertsComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,12 @@
+<span class="alert" [ngClass]="classString">
+      <span class="title-bar">
+            <span>{{alert.title}} - {{classString}} - {{display}}</span>
+            <span *ngIf="!alert.timeout">
+                  <button (click)="removeAlert()">X</button>
+            </span>
+      </span>
+      <span *ngIf="alert.text" class="content" #contentBox></span>
+      <span *ngIf="alert.alertType == 'dialog' && alert.callback" class="callbackButton">
+            <button (click)="removeAlert()">Okay</button>
+      </span>
+</span>

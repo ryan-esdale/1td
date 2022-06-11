@@ -4,6 +4,7 @@ import { Round_Controller } from "./round_controller";
 import { Upgrade, Upgrade_Currencies, Upgrade_Manager, Upgrade_Names } from "./util/upgrade";
 import { Settings } from "./util/settings";
 import { Util } from "./util/util";
+import { Unlockable_Names, Unlock_Progression } from "./util/unlock-progression";
 
 export class Game_Controller {
 
@@ -53,7 +54,10 @@ export class Game_Controller {
             this.roundOver = true;
             this.roundExpireTime = new Date().getTime();
 
-            console.log("GAME OVER, RESTARTING");
+            if (!Unlock_Progression.unlocked(Unlockable_Names.MENU_TABS)) {
+                  Unlock_Progression.unlock(Unlockable_Names.MENU_TABS);
+            }
+            // console.log("GAME OVER, RESTARTING");
             Entity_Base.entities = [];
       }
 

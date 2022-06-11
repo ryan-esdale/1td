@@ -40,4 +40,7 @@ export class Round_Controller {
             this.wavesControllers.forEach(w => w.spawn());
       }
 
+      endRound() {
+            this.wavesControllers.forEach(w => w.delete())
+      }
 }

@@ -29,4 +29,11 @@ export class Unlock_Progression {
       static unlocked(u: Unlockable_Names): boolean {
             return Unlock_Progression.unlocks.find((unlock) => unlock.name == u)?.unlocked || false;
       }
+
+      static unlock(u: Unlockable_Names): void {
+            const unlock = Unlock_Progression.unlocks.find((unlock) => unlock.name == u);
+            if (unlock) {
+                  unlock.unlocked = true;
+            }
+      }
 }
