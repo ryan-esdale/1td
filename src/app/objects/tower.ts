@@ -66,7 +66,8 @@ export class Tower extends Unit_Base {
             rC.lineWidth = 1;
             rC.strokeText("HP: " + this.hp + "/" + this.maxHP, 40, 120);
 
-            rC.strokeText("Energy: " + GameService.gameController.getCurrency(Upgrade_Currencies.ENERGY).toFixed(2), this.x - 20, this.y - 100);
+            rC.strokeText("Energy: " + GameService.gameController.getCurrency(Upgrade_Currencies.ENERGY).toFixed(2), this.x - 20, this.y - 400);
+            rC.strokeText("Minerals: " + GameService.gameController.getCurrency(Upgrade_Currencies.MINERAL).toFixed(2), this.x - 20, this.y - 380);
 
             //Draw targeting ring
             let ringColour = Colour.fromColour(this.colour);

@@ -121,6 +121,19 @@ export class Grid {
                         continue;
                   }
                   // rC.strokeStyle = "black";
+                  // if (this.colour.r > 0 && this.colour.b <= 0) {
+                  //       this.colour.r -= Math.random();
+                  //       this.colour.g += Math.random();
+                  // }
+                  // if (this.colour.g > 0 && this.colour.r <= 0) {
+                  //       this.colour.g -= Math.random();
+                  //       this.colour.b += Math.random();  
+                  // }
+                  // if (this.colour.b > 0 && this.colour.g <= 0) {
+                  //       this.colour.r += Math.random();
+                  //       this.colour.b -= Math.random();
+                  // }
+
                   rC.moveTo(this.nodes[i - 1].x, this.nodes[i - 1].y);
                   rC.lineTo(this.nodes[i].x, this.nodes[i].y);
                   if (row > 0) {

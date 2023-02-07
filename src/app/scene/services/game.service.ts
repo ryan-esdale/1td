@@ -10,5 +10,6 @@ export class GameService {
 
   constructor() {
     GameService.gameController = new Game_Controller();
+    GameService.gameController.startCurrentRound();
   }
 }

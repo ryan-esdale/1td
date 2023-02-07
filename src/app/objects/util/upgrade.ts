@@ -1,4 +1,6 @@
 import { GameService } from "src/app/scene/services/game.service";
+import { Mineral_Harvester } from "../mineral_harvester";
+import { Settings } from "./settings";
 import { Unlockable_Names } from "./unlock-progression";
 
 export enum Upgrade_Names {
@@ -7,10 +9,13 @@ export enum Upgrade_Names {
       TurnRate = "turn_rate",
       EnergyGen = "energy_generation",
       BatteryCapacity = "battery_capacity",
+      MineralCapacity = "mineral_capacity",
+      MineralHarvester = "mineral_harvester"
 }
 
 export enum Upgrade_Currencies {
       ENERGY = "energy",
+      MINERAL = "mineral",
       BATTERY = "battery"
 }
 // export enum Upgrade_Tiers {
@@ -29,6 +34,8 @@ export interface Upgrade {
       currentCost: number;
       costMulti: number;
       tier: Unlockable_Names;
+      maxLevel?: number;
+      doUpgrade?: Function;
 }
 
 export class Upgrade_Manager {
@@ -48,6 +55,9 @@ export class Upgrade_Manager {
             if (!GameService.gameController.canAffordAndPay(selected.currency, selected.currentCost)) {
                   return;
             }
+            if (selected.maxLevel && selected.level == selected.maxLevel) {
+                  return;
+            }
             selected.level++;
             // console.log("Value: " + selected.value)
             selected.value += selected.valueInc;
@@ -56,6 +66,9 @@ export class Upgrade_Manager {
 
             // console.log(Upgrade_Manager.Default_Upgrade_List)
             // console.log(Upgrade_Manager.Upgrade_List)
+            if (selected.doUpgrade) {
+                  selected.doUpgrade()
+            }
       }
 
       static getValue(upgradeName: string) {
@@ -88,7 +101,7 @@ export class Upgrade_Manager {
                   name: Upgrade_Names.DMG,
                   screenName: "Damage",
                   level: 1,
-                  value: 1,
+                  value: 0.5,
                   valueInc: 1,
                   currency: Upgrade_Currencies.ENERGY,
                   startingCost: 5,
@@ -100,7 +113,7 @@ export class Upgrade_Manager {
                   name: Upgrade_Names.RoF,
                   screenName: "Rate of Fire",
                   level: 1,
-                  value: 0.5,
+                  value: 5,
                   valueInc: 0.1,
                   currency: Upgrade_Currencies.ENERGY,
                   startingCost: 5,
@@ -112,7 +125,7 @@ export class Upgrade_Manager {
                   name: Upgrade_Names.TurnRate,
                   screenName: "Turn Speed",
                   level: 1,
-                  value: 1.5,
+                  value: 15,
                   valueInc: 0.1,
                   currency: Upgrade_Currencies.ENERGY,
                   startingCost: 10,
@@ -124,13 +137,49 @@ export class Upgrade_Manager {
                   name: Upgrade_Names.EnergyGen,
                   screenName: "Power Gen",
                   level: 1,
-                  value: 0.01,
+                  value: 1,
                   valueInc: 0.01,
                   currency: Upgrade_Currencies.ENERGY,
                   startingCost: 10,
                   currentCost: 10,
                   costMulti: 1.15,
                   tier: Unlockable_Names.TIER0,
+            },
+            {
+                  name: Upgrade_Names.MineralHarvester,
+                  screenName: "Mineral Harvester",
+                  level: 0,
+                  value: 0,
+                  valueInc: 1,
+                  currency: Upgrade_Currencies.ENERGY,
+                  startingCost: 10,
+                  currentCost: 10,
+                  costMulti: 1,
+                  tier: Unlockable_Names.TIER0,
+                  maxLevel: 60,
+                  doUpgrade: function () {
+
+                        //Rotation angle offset based on max amount, with small offset for aesthetics to make first spawn above centre
+                        const angleOffset = (2 * Math.PI / (this.maxLevel || 1))
+                        const XOffset = Math.sin(Math.PI + angleOffset * (this.level - 1))
+                        const YOffset = Math.cos(Math.PI + angleOffset * (this.level - 1))
+                        const radialOffset = 250;
+                        const harvester = new Mineral_Harvester(Settings.screenW / 2 - XOffset * radialOffset, Settings.screenH / 2 + YOffset * radialOffset);
+                        harvester.spawn();
+                  }
+            },
+            {
+                  name: Upgrade_Names.MineralCapacity,
+                  screenName: "Mineral Cap",
+                  level: 1,
+                  value: 10,
+                  valueInc: 10,
+                  currency: Upgrade_Currencies.ENERGY,
+                  startingCost: 10,
+                  currentCost: 10,
+                  costMulti: 1,
+                  tier: Unlockable_Names.TIER0,
+                  maxLevel: 10,
             },
             {
                   name: Upgrade_Names.BatteryCapacity,

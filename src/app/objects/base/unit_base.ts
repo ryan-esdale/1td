@@ -23,6 +23,7 @@ export class Unit_Base extends Entity_Base {
 
             this.targetDir = this.dir;
             this.collision = true;
+            console.log(`Adding Unit_Base at x: ${x}, y: ${y}`);
       }
 
       override update(): void {
@@ -41,7 +42,7 @@ export class Unit_Base extends Entity_Base {
             rC.closePath();
             rC.fill();
 
-            rC.fillText(this.hp + "/" + this.maxHP, this.x, this.y - this.w - 20);
+            // rC.fillText(this.hp + "/" + this.maxHP, this.x, this.y - this.w - 20);
       }
 
       aimAt(x: number, y: number): boolean {

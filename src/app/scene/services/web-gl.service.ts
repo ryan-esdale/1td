@@ -14,14 +14,6 @@ export class WebGLService {
   constructor() { }
 
   initialiseWebGLContext(canvas: HTMLCanvasElement) {
-    // this._renderingContext = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    // if (!this.gl) {
-    //   alert('Unable to initialise WebGL. Your browser may not support it');
-    //   return;
-    // }
-    // this.setWebGLCanvasDimensions(canvas);
-    // this.initialiseWebGLCanvas();
-
     this._renderingContext = canvas.getContext("2d");
 
     if (!this._renderingContext) {

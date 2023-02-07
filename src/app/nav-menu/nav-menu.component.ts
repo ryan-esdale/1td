@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Unlockable_Names, Unlock_Progression } from '../objects/util/unlock-progression';
+import { SceneComponent } from '../scene/scene.component';
+import { DrawService } from '../scene/services/draw.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -11,7 +13,9 @@ export class NavMenuComponent implements OnInit, AfterViewInit {
   //@ts-ignore
   @ViewChild('container') private container: ElementRef;
 
-  constructor() { }
+  constructor(
+    private drawService: DrawService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -22,6 +26,16 @@ export class NavMenuComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // this.container.nativeElement.width = window.innerWidth;
+    // this.selectTab2();
   }
 
+
+  selectTab1(): void {
+    this.drawService.shouldDraw = true;
+
+  }
+
+  selectTab2(): void {
+    this.drawService.shouldDraw = false;
+  }
 }

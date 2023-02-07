@@ -95,7 +95,7 @@ export class Spring {
             //       this.colour.r += Math.random();
             //       this.colour.b -= Math.random();
             // }
-            this.colour.a = (this.targetLength / this.calcLength(this.end1, this.end2));
+            // this.colour.a = (this.targetLength / this.calcLength(this.end1, this.end2));
 
             // rC.beginPath();
             rC.strokeStyle = this.colour.toString();

@@ -11,6 +11,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { TruncPipe } from './objects/util/trunc.pipe';
 import { AlertsComponent } from './alerts/alerts.component';
 import { AlertComponent } from './alerts/alert/alert.component';
+import { HubComponent } from './hub/hub.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AlertComponent } from './alerts/alert/alert.component';
     NavMenuComponent,
     TruncPipe,
     AlertsComponent,
-    AlertComponent
+    AlertComponent,
+    HubComponent
   ],
   imports: [
     BrowserModule,

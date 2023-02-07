@@ -19,9 +19,11 @@ export class Game_Controller {
       public playerCurrency: Map<Upgrade_Currencies, number> = new Map();
 
 
+
       constructor() {
             this.currentRound = new Round_Controller()
             this.playerCurrency.set(Upgrade_Currencies.ENERGY, 0);
+            this.playerCurrency.set(Upgrade_Currencies.MINERAL, 0);
             this.playerCurrency.set(Upgrade_Currencies.BATTERY, 0);
 
             Upgrade_Manager.init();
@@ -71,6 +73,16 @@ export class Game_Controller {
                   return true;
             }
             return false
+      }
+
+      addCurrency(currency: Upgrade_Currencies, amount: number) {
+            if (this.playerCurrency.has(currency)) {
+                  const current = this.getCurrency(currency);
+                  if (currency == Upgrade_Currencies.MINERAL && current + amount > Upgrade_Manager.getValue(Upgrade_Names.MineralCapacity))
+                        return;
+
+                  this.playerCurrency.set(currency, current + amount);
+            }
       }
 
       update() {

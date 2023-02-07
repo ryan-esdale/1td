@@ -4,3 +4,14 @@ Sounds
 
 Tech tree
 
+
+Consider moving the CD indicator on buildings into a building base class?
+
+
+
+What's the plan?
+
+1. Add auxilliary buildings, these can gather the meta-resource that is required between runs. 
+Deploy in a circle up to a maximum amount which can be upgraded somewhere
+
+2. Add the between-runs area

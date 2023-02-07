@@ -57,4 +57,8 @@ export class MenuComponent implements OnInit {
   roundActive(): boolean {
     return !GameService.gameController.roundOver
   }
+
+  endRound(): void {
+    GameService.gameController.endRound();
+  }
 }

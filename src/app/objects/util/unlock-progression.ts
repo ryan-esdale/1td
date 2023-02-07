@@ -22,7 +22,7 @@ export class Unlock_Progression {
             },
             {
                   name: Unlockable_Names.MENU_TABS,
-                  unlocked: false
+                  unlocked: true
             }
       ];
 
