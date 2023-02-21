@@ -1,4 +1,53 @@
+<!-- <div class="container"> -->
+
 <div class="content">
-      <p>hub works!</p>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>awdawd
+      <h1>Welcome to the Orbital Space Camp!</h1>
+      <p>Hopefully this content will be centered eventually</p>
+
+      In the mean time here's some stats:
+
+      <br>Resources:
+      <br>Energy: {{getResource(upgradeCurrencies.ENERGY)}}
+      <br>Minerals: {{getResource(upgradeCurrencies.MINERAL)}}
+      <br>Batteries:
+
+      <button (click)="startNewRound()">Start a new Run!</button>
+
+
+      <div *ngFor="let upgrade of upgrades">
+            <button *ngIf="upgrade.tier == unlockableNames.TIER1" class="b-menu b-menu-upgrade"
+                  [ngClass]="canAfford(upgrade)?'b-menu-upgrade-afford':'b-menu-upgrade-no-afford'"
+                  (click)="increase(upgrade)">
+                  <div class="b-menu-text">
+                        {{upgrade.screenName}} (lvl{{upgrade.level}}): {{upgrade.value|number:'1.0-2'}}
+                        <span *ngIf="upgrade.maxLevel && upgrade.level == upgrade.maxLevel">(MAX)</span>
+                        <span *ngIf="!upgrade.maxLevel || !(upgrade.level == upgrade.maxLevel)">
+                              ->
+                              {{upgrade.value+upgrade.valueInc|number:'1.0-2'}} (
+                              <!-- <div class="i-menu"> -->
+                              <svg *ngIf="upgrade.currency == upgradeCurrencies.ENERGY"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="4 -5 10 24" height="50">
+                                    <g fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round"
+                                          stroke-linejoin="">
+                                          <path d="M 5 5 L 7 2 L 11 2 L 8 5 L 11 9 L 7 13 L 8 9 L 5 5">
+                                          </path>
+                                    </g>
+                              </svg>
+                              <svg *ngIf="upgrade.currency == upgradeCurrencies.BATTERY"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 -5 10 20" height="50">
+                                    <g fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round"
+                                          stroke-linejoin="">
+                                          <path d="M 2 2 L 8 2 L 8 8 L 2 8 L 2 2 ">
+                                          </path>
+                                    </g>
+                              </svg>
+                              x{{upgrade.currentCost|number:'1.0-2' }})
+                        </span>
+                  </div>
+                  <!-- </div> -->
+            </button>
+      </div>
 </div>
+<!-- </div> -->

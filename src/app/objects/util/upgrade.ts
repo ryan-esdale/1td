@@ -10,7 +10,9 @@ export enum Upgrade_Names {
       EnergyGen = "energy_generation",
       BatteryCapacity = "battery_capacity",
       MineralCapacity = "mineral_capacity",
-      MineralHarvester = "mineral_harvester"
+      MineralHarvester = "mineral_harvester",
+      MineralHarvesterMax = "mineral_harvester_count",
+      MineralCapacityMax = "mineral_capacity_max",
 }
 
 export enum Upgrade_Currencies {
@@ -52,9 +54,7 @@ export class Upgrade_Manager {
             if (!selected) {
                   return;
             }
-            if (!GameService.gameController.canAffordAndPay(selected.currency, selected.currentCost)) {
-                  return;
-            }
+
             if (selected.maxLevel && selected.level == selected.maxLevel) {
                   return;
             }
@@ -156,14 +156,14 @@ export class Upgrade_Manager {
                   currentCost: 10,
                   costMulti: 1,
                   tier: Unlockable_Names.TIER0,
-                  maxLevel: 60,
+                  maxLevel: 3,
                   doUpgrade: function () {
 
                         //Rotation angle offset based on max amount, with small offset for aesthetics to make first spawn above centre
                         const angleOffset = (2 * Math.PI / (this.maxLevel || 1))
                         const XOffset = Math.sin(Math.PI + angleOffset * (this.level - 1))
                         const YOffset = Math.cos(Math.PI + angleOffset * (this.level - 1))
-                        const radialOffset = 250;
+                        const radialOffset = 150;
                         const harvester = new Mineral_Harvester(Settings.screenW / 2 - XOffset * radialOffset, Settings.screenH / 2 + YOffset * radialOffset);
                         harvester.spawn();
                   }
@@ -192,6 +192,46 @@ export class Upgrade_Manager {
                   currentCost: 1,
                   costMulti: 1,
                   tier: Unlockable_Names.TIER1,
+            },
+            {
+                  name: Upgrade_Names.MineralHarvesterMax,
+                  screenName: "Maximum Mineral Harvesters",
+                  level: 1,
+                  value: 3,
+                  valueInc: 1,
+                  currency: Upgrade_Currencies.MINERAL,
+                  startingCost: 100,
+                  currentCost: 100,
+                  costMulti: 2,
+                  tier: Unlockable_Names.TIER1,
+                  maxLevel: 5,
+                  doUpgrade: function () {
+                        let upgrade = Upgrade_Manager.Upgrade_List.find(u => u.name == Upgrade_Names.MineralHarvester);
+                        if (upgrade && upgrade.maxLevel) {
+                              upgrade.maxLevel += this.valueInc;
+                        }
+
+                  }
+            },
+            {
+                  name: Upgrade_Names.MineralCapacityMax,
+                  screenName: "Maximum Mineral Capacity",
+                  level: 1,
+                  value: 10,
+                  valueInc: 5,
+                  currency: Upgrade_Currencies.MINERAL,
+                  startingCost: 100,
+                  currentCost: 100,
+                  costMulti: 1,
+                  tier: Unlockable_Names.TIER1,
+                  maxLevel: 20,
+                  doUpgrade: function () {
+                        let upgrade = Upgrade_Manager.Upgrade_List.find(u => u.name == Upgrade_Names.MineralCapacity);
+                        if (upgrade && upgrade.maxLevel) {
+                              upgrade.maxLevel += this.valueInc;
+                        }
+
+                  }
             }
       ]
 

@@ -7,7 +7,7 @@ export class Alert {
       callback?: Function;
       createdTime: number;
 
-      constructor(title: string, alertType: AlertType, timeout?: number, text?: string, callback?: Function) {
+      constructor(title: string, alertType: AlertType, text?: string, timeout?: number, callback?: Function) {
 
             this.title = title;
             this.text = text;

@@ -5,6 +5,11 @@ import { Upgrade, Upgrade_Currencies, Upgrade_Manager, Upgrade_Names } from "./u
 import { Settings } from "./util/settings";
 import { Util } from "./util/util";
 import { Unlockable_Names, Unlock_Progression } from "./util/unlock-progression";
+import { ResourceManager } from "./util/resource-manager";
+import { AlertService } from "../alerts/services/alert.service";
+import { Alert, AlertType } from "../alerts/models/alert";
+import { GameService } from "../scene/services/game.service";
+import { DrawService } from "../scene/services/draw.service";
 
 export class Game_Controller {
 
@@ -18,28 +23,36 @@ export class Game_Controller {
 
       public playerCurrency: Map<Upgrade_Currencies, number> = new Map();
 
+      public resourceManager: ResourceManager = new ResourceManager();
 
-
-      constructor() {
+      constructor(private alerts: AlertService) {
             this.currentRound = new Round_Controller()
-            this.playerCurrency.set(Upgrade_Currencies.ENERGY, 0);
-            this.playerCurrency.set(Upgrade_Currencies.MINERAL, 0);
-            this.playerCurrency.set(Upgrade_Currencies.BATTERY, 0);
+            this.resourceManager.roundCurrency.set(Upgrade_Currencies.ENERGY, 0);
+            this.resourceManager.roundCurrency.set(Upgrade_Currencies.MINERAL, 0);
+            this.resourceManager.roundCurrency.set(Upgrade_Currencies.BATTERY, 0);
 
             Upgrade_Manager.init();
       }
 
       getCurrency(currency: Upgrade_Currencies) {
-            return this.playerCurrency.get(currency) || 0;
+            return this.resourceManager.roundCurrency.get(currency) || 0;
       }
 
       increaseUpgrade(upgradeName: string) {
+            const selected = Upgrade_Manager.Upgrade_List.find(u => u.name == upgradeName);
+            if (!selected) {
+                  return;
+            }
+            if (!GameService.gameController.canAffordAndPay(selected.currency, selected.currentCost)) {
+                  return;
+            }
             Upgrade_Manager.increase(upgradeName);
             this.currentRound.applyUpgrades();
       }
 
       startCurrentRound() {
-            this.playerCurrency.set(Upgrade_Currencies.ENERGY, 0);
+            this.roundOver = false;
+            this.resourceManager.roundCurrency.set(Upgrade_Currencies.ENERGY, 0);
             Upgrade_Manager.resetRoundUpgrades();
             this.currentRound.applyUpgrades();
             this.currentRound.startRound();
@@ -61,6 +74,16 @@ export class Game_Controller {
             }
             // console.log("GAME OVER, RESTARTING");
             Entity_Base.entities = [];
+            this.alerts.alert(new Alert("Your Tower was destroyed",
+                  AlertType.DIALOG,
+                  `You managed to successfully escape into orbit.<br><br>
+                  You were able to bring with you:<br>
+                  Minerals: ${this.resourceManager.roundCurrency.get(Upgrade_Currencies.MINERAL)}<br>
+                  `,
+                  undefined,
+                  () => { console.log("Round over nerd") }
+            ));
+            this.resourceManager.convertRoundToGlobal();
       }
 
       canAfford(currency: Upgrade_Currencies, amount: number) {
@@ -68,34 +91,33 @@ export class Game_Controller {
       }
 
       canAffordAndPay(currency: Upgrade_Currencies, amount: number) {
-            if (this.playerCurrency.has(currency) && this.canAfford(currency, amount)) {
-                  this.playerCurrency.set(currency, this.getCurrency(currency) - amount);
+            if (this.resourceManager.roundCurrency.has(currency) && this.canAfford(currency, amount)) {
+                  this.resourceManager.roundCurrency.set(currency, this.getCurrency(currency) - amount);
                   return true;
             }
             return false
       }
 
       addCurrency(currency: Upgrade_Currencies, amount: number) {
-            if (this.playerCurrency.has(currency)) {
+            if (this.resourceManager.roundCurrency.has(currency)) {
                   const current = this.getCurrency(currency);
                   if (currency == Upgrade_Currencies.MINERAL && current + amount > Upgrade_Manager.getValue(Upgrade_Names.MineralCapacity))
                         return;
 
-                  this.playerCurrency.set(currency, current + amount);
+                  this.resourceManager.roundCurrency.set(currency, current + amount);
             }
       }
 
       update() {
             if (this.roundOver && this.autoRestart) {
                   if (new Date().getTime() > this.roundExpireTime + this.roundResetTimer) {
-                        this.roundOver = false;
                         this.restartRound();
                   }
             }
 
             if (!this.roundOver) {
                   const currentEnergy = this.getCurrency(Upgrade_Currencies.ENERGY);
-                  this.playerCurrency.set(Upgrade_Currencies.ENERGY, currentEnergy + 1 * Upgrade_Manager.getValue(Upgrade_Names.EnergyGen));
+                  this.resourceManager.roundCurrency.set(Upgrade_Currencies.ENERGY, currentEnergy + 1 * Upgrade_Manager.getValue(Upgrade_Names.EnergyGen));
             }
       }
 

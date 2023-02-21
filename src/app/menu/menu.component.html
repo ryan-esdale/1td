@@ -56,7 +56,7 @@
                         [ngClass]="canAfford(upgrade)?'b-menu-upgrade-afford':'b-menu-upgrade-no-afford'"
                         (click)="increase(upgrade)">
                         <div class="b-menu-text">
-                              {{upgrade.screenName}}: {{upgrade.value|number:'1.0-2'}}
+                              {{upgrade.screenName}} (lvl{{upgrade.level}}): {{upgrade.value|number:'1.0-2'}}
                               <span *ngIf="upgrade.maxLevel && upgrade.level == upgrade.maxLevel">(MAX)</span>
                               <span *ngIf="!upgrade.maxLevel || !(upgrade.level == upgrade.maxLevel)">
                                     ->

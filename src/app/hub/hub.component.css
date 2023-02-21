@@ -1,3 +1,9 @@
 .content {
       color: white;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      align-items: center;
+      /* max-width: 100%; */
+      width: 12;
 }

@@ -41,7 +41,7 @@ export class Mineral_Harvester extends Unit_Base {
       override update(): void {
             this.cooldown--;
             if (this.cooldown <= 0) {
-                  GameService.gameController.addCurrency(Upgrade_Currencies.MINERAL, 1);
+                  GameService.gameController.addCurrency(Upgrade_Currencies.MINERAL, 5);
                   this.cooldown = this.defaultCooldown;
                   // GridService.prototype.getGrid().applyImplosiveForce(0.03, this.x, this.y, 100);
                   GridService.prototype.getGrid().applyExplosiveForce(0.00025, this.x, this.y, 200);

@@ -14,7 +14,8 @@ export class DrawService {
   private canvas: HTMLCanvasElement | undefined;
 
   private lastTickTime = new Date().getTime();
-  public shouldDraw = true;
+  private frameTimes: number[] = [];
+  public shouldDraw = false;
 
   constructor(
     private gridService: GridService,
@@ -37,7 +38,12 @@ export class DrawService {
 
     // GameService.gameController.startCurrentRound();
 
-    setInterval(() => this.draw(), 10);
+    setInterval(() => {
+      if (new Date().getTime() - this.lastTickTime < 10) {
+        return;
+      }
+      this.draw()
+    }, 1);
   }
 
   draw() {
@@ -61,8 +67,15 @@ export class DrawService {
     //FPS or ms per frame I guess
     this.rC.fillStyle = new Colour(255, 255, 255, 1).toString();
     let frameTime = new Date().getTime() - this.lastTickTime;
-    this.rC.fillText(frameTime + "ms", 20, 20);
     this.lastTickTime = new Date().getTime();
+    this.frameTimes.push(frameTime);
+    if (this.frameTimes.length > 200) {
+      this.frameTimes.splice(0, 1);
+    }
+    let avgFrameTime = 0
+    this.frameTimes.forEach(f => avgFrameTime += f);
+    this.rC.fillText(Math.trunc(avgFrameTime / 200) + "ms", 20, 20);
+    this.rC.fillText(Math.trunc(1000 / (avgFrameTime / 200)) + "fps", 20, 40);
 
     //Draw background
     this.rC.globalCompositeOperation = 'destination-over';
