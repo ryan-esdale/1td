@@ -79,13 +79,32 @@ export class TechTreeDrawService {
     this.rC.fillText("" + this.dragOffset[0] + " - " + this.dragOffset[1], 400, 400);
 
     this.tempTechTree.nodes.forEach(node => {
+      if (!this.rC)
+        return
       const nodePosition = [node.pos[0] + startPosition[0] + this.dragOffset[0], node.pos[1] + startPosition[1] + this.dragOffset[1]]
-      this.rC?.fillText(node.name, nodePosition[0], nodePosition[1]);
-      this.rC?.beginPath();
-      this.rC?.moveTo(nodePosition[0], nodePosition[1]);
-      const parentPos = this.tempTechTree.getParentNodePos(node);
-      this.rC?.lineTo(parentPos[0] + startPosition[0] + this.dragOffset[0], parentPos[1] + startPosition[1] + this.dragOffset[1]);
-      this.rC?.stroke();
+      this.rC.fillText(node.name, nodePosition[0], nodePosition[1]);
+      this.rC.beginPath();
+      this.rC.moveTo(nodePosition[0], nodePosition[1]);
+      const parentPosOffset = this.tempTechTree.getParentNodePos(node);
+      const parentPos = [parentPosOffset[0] + startPosition[0] + this.dragOffset[0], parentPosOffset[1] + startPosition[1] + this.dragOffset[1]];
+
+
+      //If they're not lined up, do some cool diagonal stuff
+
+      const straightLength = 20;
+      const diagLength = 10;
+      if (parentPos[0] != nodePosition[0] || parentPos[1] != nodePosition[1]) {
+        const xDiff = (parentPos[0] - nodePosition[0]);
+        const yDiff = (parentPos[1] - nodePosition[1]);
+
+        this.rC.lineTo(nodePosition[0], nodePosition[1] + (straightLength * Math.sign(yDiff)));
+        this.rC.lineTo(nodePosition[0] + (diagLength * Math.sign(xDiff)), nodePosition[1] + ((diagLength + straightLength) * Math.sign(yDiff)));
+        this.rC.lineTo(parentPos[0] - (diagLength * Math.sign(xDiff)), nodePosition[1] + ((diagLength + straightLength) * Math.sign(yDiff)));
+        this.rC.lineTo(parentPos[0], nodePosition[1] + ((2 * diagLength + straightLength) * Math.sign(yDiff)));
+      }
+
+      this.rC.lineTo(parentPos[0], parentPos[1]);
+      this.rC.stroke();
     })
 
     this.rC.restore();

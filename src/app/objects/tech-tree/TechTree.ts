@@ -11,6 +11,10 @@ export class TechTree {
             this.nodes.push(new TechTreeNode(TechTreeNodeName.SECONDARY_NODE, 1, TechTreeNodeName.TEST_NODE, false, [100, 100]));
             this.nodes.push(new TechTreeNode(TechTreeNodeName.TERTIARY_NODE, 1, TechTreeNodeName.TEST_NODE, false, [-100, 200]));
             this.nodes.push(new TechTreeNode(TechTreeNodeName.TERTIARY_NODE, 1, TechTreeNodeName.SECONDARY_NODE, false, [300, 150]));
+            this.nodes.push(new TechTreeNode(TechTreeNodeName.TERTIARY_NODE, 1, TechTreeNodeName.TEST_NODE, false, [-300, -400]));
+            this.nodes.push(new TechTreeNode(TechTreeNodeName.TERTIARY_NODE, 1, TechTreeNodeName.TEST_NODE, false, [200, -150]));
+            this.nodes.push(new TechTreeNode(TechTreeNodeName.TERTIARY_NODE, 1, TechTreeNodeName.TEST_NODE, false, [500, 50]));
+            this.nodes.push(new TechTreeNode(TechTreeNodeName.TERTIARY_NODE, 1, TechTreeNodeName.TEST_NODE, false, [-500, -50]));
       }
 
       getPrimaryNodeIndex(): number {
