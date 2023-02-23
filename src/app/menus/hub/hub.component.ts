@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Unlockable_Names } from '../objects/util/unlock-progression';
-import { Upgrade, Upgrade_Currencies, Upgrade_Manager } from '../objects/util/upgrade';
-import { DrawService } from '../scene/services/draw.service';
-import { GameService } from '../scene/services/game.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Unlockable_Names } from '../../objects/util/unlock-progression';
+import { Upgrade, Upgrade_Currencies, Upgrade_Manager } from '../../objects/util/upgrade';
+import { DrawService } from '../../scene/services/draw.service';
+import { GameService } from '../../scene/services/game.service';
 
 @Component({
   selector: 'app-hub',
@@ -11,11 +11,13 @@ import { GameService } from '../scene/services/game.service';
 })
 export class HubComponent implements OnInit {
 
+  @Input() selectedTab: number = 1;
+  @Output() selectedTabChange: EventEmitter<number> = new EventEmitter<number>();
+
   public unlockableNames = Unlockable_Names;
   public upgradeCurrencies = Upgrade_Currencies;
   public resourceMap = GameService.gameController.resourceManager.globalCurrency;
   public upgrades: Upgrade[] = [];
-
 
   constructor(private drawService: DrawService) { }
 
@@ -41,5 +43,6 @@ export class HubComponent implements OnInit {
   startNewRound(): void {
     GameService.gameController.restartRound();
     this.drawService.shouldDraw = true;
+    this.selectedTabChange.emit(1);
   }
 }

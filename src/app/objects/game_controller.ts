@@ -122,14 +122,20 @@ export class Game_Controller {
       }
 
       draw(rC: CanvasRenderingContext2D) {
+
             if (this.roundOver) {
                   rC.save();
                   rC.font = rC.font.replace(/\d+px/, "48px");
                   rC.fillStyle = "white";
+                  rC.shadowColor = "red";
+                  rC.shadowBlur = 1;
                   rC.fillText("GAME OVER", Settings.screenW / 2 - 140, Settings.screenH / 2 - 200);
                   if (this.autoRestart) {
                         rC.font = rC.font.replace(/\d+px/, "24px");
                         rC.fillText("RESTARTING IN " + (5000 - (new Date().getTime() - this.roundExpireTime)) / 1000, Settings.screenW / 2 - 125, Settings.screenH / 2 - 175);
+                  } else {
+                        rC.font = rC.font.replace(/\d+px/, "24px");
+                        rC.fillText("Continue to Tab #2 to start a new run.", Settings.screenW / 2 - 200, Settings.screenH / 2 - 175);
                   }
                   rC.restore();
             }

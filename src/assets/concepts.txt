@@ -1,0 +1,70 @@
+
+
+Manual aiming turret which can be disabled for a % increase of power
+
+After maxing rot speed a further tier which allows shooting in all directions (instant turnspeed)
+
+
+
+Jittery Neon text example: 
+
+            var text = "GAME OVER";
+            var font = "48px Futura, Helvetica, sans-serif";
+            var jitter = 25; // the distance of the maximum jitter
+            var offsetX = Settings.screenW / 2 - 140;
+            var offsetY = Settings.screenH / 2 - 200;
+            var blur = 10;
+            // save state
+            rC.save();
+            rC.font = font;
+            // calculate width + height of text-block
+            var metrics = { width: 350, height: 120, top: 300, wdith: 100 };
+            // create clipping mask around text-effect
+            rC.rect(offsetX - blur / 2, offsetY - blur / 2,
+                  offsetX + metrics.width + blur, metrics.height + blur);
+            rC.clip();
+            // create shadow-blur to mask rainbow onto (since shadowColor doesn't accept gradients)
+            rC.save();
+            rC.fillStyle = "#fff";
+            rC.shadowColor = "rgba(0,0,0,1)";
+            rC.shadowOffsetX = metrics.width + blur;
+            rC.shadowOffsetY = 0;
+            rC.shadowBlur = blur;
+            rC.fillText(text, -metrics.width + offsetX - blur, offsetY + metrics.top);
+            rC.restore();
+            // create the rainbow linear-gradient
+            var gradient = rC.createLinearGradient(0, 0, metrics.width, 0);
+            gradient.addColorStop(0, "rgba(255, 0, 0, 1)");
+            gradient.addColorStop(0.15, "rgba(255, 255, 0, 1)");
+            gradient.addColorStop(0.3, "rgba(0, 255, 0, 1)");
+            gradient.addColorStop(0.5, "rgba(0, 255, 255, 1)");
+            gradient.addColorStop(0.65, "rgba(0, 0, 255, 1)");
+            gradient.addColorStop(0.8, "rgba(255, 0, 255, 1)");
+            gradient.addColorStop(1, "rgba(255, 0, 0, 1)");
+            // change composite so source is applied within the shadow-blur
+            rC.globalCompositeOperation = "source-atop";
+            // apply gradient to shadow-blur
+            rC.fillStyle = gradient;
+            rC.fillRect(offsetX - jitter / 2, offsetY,
+                  metrics.width + offsetX, metrics.height + offsetY);
+            // change composite to mix as light
+            rC.globalCompositeOperation = "lighter";
+            // multiply the layer
+            rC.globalAlpha = 0.7
+            rC.drawImage(rC.canvas, 0, 0);
+            rC.drawImage(rC.canvas, 0, 0);
+            rC.globalAlpha = 1
+            // draw white-text ontop of glow
+            rC.fillStyle = "rgba(255,255,255,0.95)";
+            rC.fillText(text, offsetX, offsetY + metrics.top);
+            // created jittered stroke
+            rC.lineWidth = 0.80;
+            rC.strokeStyle = "rgba(255,255,255,0.25)";
+            var i = 10; while (i--) {
+                  var left = jitter / 2 - Math.random() * jitter;
+                  var top = jitter / 2 - Math.random() * jitter;
+                  rC.strokeText(text, left + offsetX, top + offsetY + metrics.top);
+            }
+            rC.strokeStyle = "rgba(0,0,0,0.20)";
+            rC.strokeText(text, Settings.screenW / 2 - 140, Settings.screenH / 2 - 200);
+            rC.restore();

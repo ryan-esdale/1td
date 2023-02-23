@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Entity_Base } from '../objects/base/entity_base';
-import { Tower } from '../objects/tower';
-import { Settings } from '../objects/util/settings';
-import { Unlock_Progression } from '../objects/util/unlock-progression';
-import { Upgrade, Upgrade_Currencies, Upgrade_Manager } from '../objects/util/upgrade';
-import { GameService } from '../scene/services/game.service';
+import { Entity_Base } from '../../../objects/base/entity_base';
+import { Tower } from '../../../objects/tower';
+import { Settings } from '../../../objects/util/settings';
+import { Unlock_Progression } from '../../../objects/util/unlock-progression';
+import { Upgrade, Upgrade_Currencies, Upgrade_Manager } from '../../../objects/util/upgrade';
+import { GameService } from '../../../scene/services/game.service';
 
 @Component({
   selector: 'app-menu',

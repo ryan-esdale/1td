@@ -1,14 +1,17 @@
 <div class="container">
       <div class="nav-row">
-            <app-nav-menu></app-nav-menu>
+            <app-nav-menu [(selectedTab)]="selectedTab"></app-nav-menu>
       </div>
       <div class="body-content">
-            <div *ngIf="shouldDrawGridView()">
+            <div *ngIf="selectedTab == 1">
                   <app-scene></app-scene>
                   <app-menu></app-menu>
             </div>
-            <div *ngIf="!shouldDrawGridView()">
-                  <app-hub></app-hub>
+            <div *ngIf="selectedTab == 2">
+                  <app-hub [(selectedTab)]="selectedTab"></app-hub>
+            </div>
+            <div *ngIf="selectedTab == 3">
+                  <app-tech-tree [(selectedTab)]="selectedTab"></app-tech-tree>
             </div>
       </div>
 </div>

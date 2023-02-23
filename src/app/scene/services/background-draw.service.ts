@@ -13,18 +13,18 @@ export class BackgroundDrawService {
 
   constructor() { }
 
-  initialiseContext(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
-    canvas.height = 1200;
-    canvas.width = 800;
+  // initialiseContext(canvas: HTMLCanvasElement) {
+  //   this.canvas = canvas;
+  //   canvas.height = 1200;
+  //   canvas.width = 800;
 
-    this.rC = canvas.getContext("2d");
+  //   this.rC = canvas.getContext("2d");
 
-    if (!this.rC) {
-      return;
-    }
+  //   if (!this.rC) {
+  //     return;
+  //   }
 
-    this.rC.fillStyle = "black";
-    this.rC.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  }
+  //   this.rC.fillStyle = "black";
+  //   this.rC.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  // }
 }

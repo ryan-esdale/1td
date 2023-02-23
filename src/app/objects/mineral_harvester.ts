@@ -7,8 +7,8 @@ import { Upgrade_Currencies } from "./util/upgrade";
 
 export class Mineral_Harvester extends Unit_Base {
 
-      private cooldown = 100;
-      private defaultCooldown = 100;
+      // private cooldown = 100;
+      // private defaultCooldown = 100;
 
       constructor(x: number, y: number) {
             super(x, y, 15, 15, 1, 0);
@@ -18,33 +18,25 @@ export class Mineral_Harvester extends Unit_Base {
             this.collision = true;
 
             console.log(`Adding harvester at x: ${x}, y: ${y}`);
+
+            this.cooldown = 100;
+            this.defaultCooldown = 100;
       }
 
       override draw(rC: CanvasRenderingContext2D): void {
 
 
-            rC.save();
-            rC.strokeStyle = "white";
 
-            //Draw shot timer indicator
-            rC.beginPath()
-            rC.lineWidth = 8;
-            rC.strokeStyle = new Colour(255, 255, 200, 0.8).toString();
-            rC.arc(this.x, this.y, this.w, -Math.PI / 2, (Math.PI * 2) * (Math.max(this.cooldown, 0) / this.defaultCooldown) - Math.PI / 2, true);
-            rC.stroke();
-
-            rC.restore();
 
             super.draw(rC);
       }
 
-      override update(): void {
-            this.cooldown--;
-            if (this.cooldown <= 0) {
-                  GameService.gameController.addCurrency(Upgrade_Currencies.MINERAL, 5);
-                  this.cooldown = this.defaultCooldown;
-                  // GridService.prototype.getGrid().applyImplosiveForce(0.03, this.x, this.y, 100);
-                  GridService.prototype.getGrid().applyExplosiveForce(0.00025, this.x, this.y, 200);
-            }
+      // override update(): void {
+
+      // }
+
+      override activate(): void {
+            GameService.gameController.addCurrency(Upgrade_Currencies.MINERAL, 5);
+            GridService.prototype.getGrid().applyExplosiveForce(0.00025, this.x, this.y, 200);
       }
 }

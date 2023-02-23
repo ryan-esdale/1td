@@ -15,7 +15,7 @@ export class DrawService {
 
   private lastTickTime = new Date().getTime();
   private frameTimes: number[] = [];
-  public shouldDraw = false;
+  public shouldDraw = true;
 
   constructor(
     private gridService: GridService,

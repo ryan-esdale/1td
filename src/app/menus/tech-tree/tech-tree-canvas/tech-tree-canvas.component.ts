@@ -1,22 +1,17 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { GridService } from '../objects/background/services/grid.service';
-import { Entity_Base } from '../objects/base/entity_base';
-import { Particle } from '../objects/base/particle_base';
-import { Settings } from '../objects/util/settings';
-import { BackgroundDrawService } from './services/background-draw.service';
-import { DrawService } from './services/draw.service';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Settings } from 'src/app/objects/util/settings';
+import { TechTreeDrawService } from './draw-service/tech-tree-draw.service';
 
 @Component({
-  selector: 'app-scene',
-  templateUrl: './scene.component.html',
-  styleUrls: ['./scene.component.css']
+  selector: 'app-tech-tree-canvas',
+  templateUrl: './tech-tree-canvas.component.html',
+  styleUrls: ['./tech-tree-canvas.component.css']
 })
-export class SceneComponent implements OnInit, AfterViewInit {
+export class TechTreeCanvasComponent implements OnInit, AfterViewInit {
 
   //@ts-ignore
-  @ViewChild('sceneCanvas') private canvas: ElementRef;
-  //@ts-ignore
-  // @ViewChild('backgroundCanvas') private bgCanvas: ElementRef;
+  @ViewChild('techTreeCanvas') private canvas: ElementRef;
+
   public sceneW = Settings.screenW;
   public sceneH = Settings.screenH;
 
@@ -26,12 +21,12 @@ export class SceneComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private drawService: DrawService,
-    private backgroundService: BackgroundDrawService,
-  ) { }
+    private drawService: TechTreeDrawService,
+  ) {
+
+  }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit(): void {
@@ -41,14 +36,12 @@ export class SceneComponent implements OnInit, AfterViewInit {
       console.log("Canvas not supplied! cannot bind WebGL context");
       return;
     }
+
     this.doResize();
     this.drawService.initialiseContext(this.canvas.nativeElement);
-
-    // this.backgroundService.initialiseContext(this.bgCanvas.nativeElement);
   }
 
   doResize() {
-
     if (window.innerWidth > 1250) {
       Settings.screenW = Math.floor((window.innerWidth) / Settings.gridSpacing) * Settings.gridSpacing;
     } else {
@@ -62,15 +55,6 @@ export class SceneComponent implements OnInit, AfterViewInit {
     this.sceneH = Settings.screenH;
     this.canvas.nativeElement.width = this.sceneW;
     this.canvas.nativeElement.height = this.sceneH;
-    GridService.prototype.newGrid();
-    // console.log("xD: " + xDiff);
-    Particle.particles.forEach(p => {
-      p.x += xDiff / 2;
-      p.y += yDiff / 2;
-    });
-    Entity_Base.entities.forEach(e => {
-      e.x += xDiff / 2;
-      e.y += yDiff / 2;
-    })
   }
+
 }

@@ -8,6 +8,8 @@ import { DrawService } from '../scene/services/draw.service';
 })
 export class MainComponent implements OnInit {
 
+  public selectedTab: number = 3;
+
   constructor(private drawService: DrawService) { }
 
   ngOnInit(): void {

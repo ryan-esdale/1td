@@ -1,0 +1,10 @@
+<div class="container">
+      <div class="title">Welcome to 1TD. (Patent Pending)</div>
+      <div *ngIf="showTabs()" class="tab-row">
+            <div class="tab" [ngClass]="selectedTab == 1 ? 'selected' : ''" (click)="selectTab(1)">Current Run</div>
+            <div class="tab" [ngClass]="selectedTab == 2 ? 'selected' : ''" (click)="selectTab(2)">Orbital Camp</div>
+            <div class="tab" [ngClass]="selectedTab == 3 ? 'selected' : ''" (click)="selectTab(3)">Tech Tree</div>
+            <div class="tab">Item 4</div>
+            <div class="tab">Item 5</div>
+      </div>
+</div>

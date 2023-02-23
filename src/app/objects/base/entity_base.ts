@@ -33,9 +33,13 @@ export class Entity_Base {
             this.h = h;
 
             this.dir = dir || 0;
-            this.speed = speed;
+            this.speed = speed || 0;
 
 
+      }
+
+      getPos(): number[] {
+            return [this.x, this.y];
       }
 
       distanceTo(other: Entity_Base) {
@@ -92,12 +96,12 @@ export class Entity_Base {
       }
 
       draw(rC: CanvasRenderingContext2D) {
-            if (Entity_Base.drawBox) {
-                  rC.beginPath();
-                  rC.strokeStyle = "red";
-                  rC.strokeRect(this.x - (this.w / 2), this.y - (this.h / 2), this.w, this.h);
-                  rC.stroke();
-            }
+            // if (Entity_Base.drawBox) {
+            //       rC.beginPath();
+            //       rC.strokeStyle = "red";
+            //       rC.strokeRect(this.x - (this.w / 2), this.y - (this.h / 2), this.w, this.h);
+            //       rC.stroke();
+            // }
       }
 
       delete() {

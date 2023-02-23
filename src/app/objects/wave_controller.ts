@@ -36,7 +36,8 @@ export class Wave_Controller extends Entity_Base {
                   const spawnDist = 400;
                   e.x = spawnDist * Math.cos(ranAngle) + GridService.prototype.gridCentre()[0];
                   e.y = spawnDist * Math.sin(ranAngle) + GridService.prototype.gridCentre()[1];
-                  e.dir = Util.aimAngle([e.x, e.y], [GridService.prototype.gridCentre()[0], GridService.prototype.gridCentre()[1]]);
+                  // if (!e.dir)
+                  // e.dir = Util.aimAngle([e.x, e.y], [GridService.prototype.gridCentre()[0], GridService.prototype.gridCentre()[1]]);
                   e.spawn();
 
                   this.lastSpawn = this.spawnRate;

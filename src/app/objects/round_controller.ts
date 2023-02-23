@@ -1,5 +1,7 @@
 import { GameService } from "../scene/services/game.service";
-import { Enemy_Base } from "./base/enemy_base";
+import { GridService } from "./background/services/grid.service";
+import { Enemy_Base, PathType } from "./base/enemy_base";
+import { Projectile } from "./projectile";
 import { Tower } from "./tower";
 import { Colour } from "./util/colour";
 import { Settings } from "./util/settings";
@@ -22,10 +24,32 @@ export class Round_Controller {
             chad.colour = new Colour(200, 0, 0, 1);
             chad.speed = 0.5;
 
+            const spiral = new Enemy_Base(400, 750, 20, 20, 1, 1, PathType.SPIRAL);
+            spiral.colour = new Colour(0, 0, 200, 1);
+            spiral.speed = 1.5;
+            spiral.rotSpeed = 0.0045;
+            spiral.cooldown = 300;
+            spiral.defaultCooldown = 300;
+            spiral.activate = () => {
+                  let bullet = new Projectile(
+                        spiral.x,
+                        spiral.y,
+                        6, 6,
+                        Util.aimAngle(spiral.getPos(), [GridService.prototype.gridCentre()[0], GridService.prototype.gridCentre()[1]]),
+                        100, 10
+                  );
+                  bullet.dmg = 0.1;
+                  bullet.faction = spiral.faction;
+                  bullet.spawn();
+            }
+
             this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
+            this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, spiral, 500));
             this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, chad, 1250));
             // this.wavesControllers.push(new Wave_Controller(0, 0, 0, 0, dummy, 500));
-            this.wavesControllers[1].lastSpawn = 1500;
+            // this.wavesControllers[0].lastSpawn = 500;
+            // this.wavesControllers[1].lastSpawn = 500;
+            // this.wavesControllers[2].lastSpawn = 500;
             // this.wavesControllers[2].lastSpawn = 800;
       }
 

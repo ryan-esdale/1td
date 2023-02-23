@@ -25,11 +25,13 @@ export class AlertsComponent implements OnInit {
 
     // this.alertService.alert(new Alert("Test 1", AlertType.SMALL));
     // this.alertService.alert(new Alert("Test 2", AlertType.SMALL, 5000));
-    // this.alertService.alert(new Alert("Dialog Test 1", AlertType.DIALOG, 2000));
-    // this.alertService.alert(new Alert("Dialog Test 2", AlertType.DIALOG, undefined,
-    //   "Text content goes here, this message should hold newlines properly. <br><br> And lets test that theory.", () => { alert("Callback triggered") }));
+    // this.alertService.alert(new Alert("Dialog Test 1", AlertType.DIALOG, "Test content", 2000));
 
-    //Test Alerts
+    // this.alertService.alert(new Alert("Dialog Test 2", AlertType.DIALOG,
+    //   "Text content goes here, this message should hold newlines properly. <br><br> And lets test that theory.", undefined,
+    //   () => { alert("Callback triggered") }));
+
+    // Test Alerts
 
     // setInterval(() => {
     //   this.alertService.alert(new Alert("Timed Test #" + this.i, AlertType.SMALL, Math.random() * 3000 + 1000));
