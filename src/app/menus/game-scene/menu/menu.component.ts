@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Util } from 'src/app/objects/util/util';
 import { Entity_Base } from '../../../objects/base/entity_base';
 import { Tower } from '../../../objects/tower';
 import { Settings } from '../../../objects/util/settings';
@@ -25,7 +26,9 @@ export class MenuComponent implements OnInit {
     this.toggleButtonHeight = window.innerHeight / 2;
   }
 
-  constructor() { }
+  constructor(
+    private gameService: GameService
+  ) { }
 
   ngOnInit(): void {
     this.upgrades = Upgrade_Manager.Upgrade_List;
@@ -60,5 +63,23 @@ export class MenuComponent implements OnInit {
 
   endRound(): void {
     GameService.gameController.endRound();
+  }
+
+  saveGame(): boolean {
+    localStorage.setItem('game', Util.generateSave());
+
+    return false
+  }
+
+
+  loadGame(): boolean {
+    const gameStr = localStorage.getItem('game')
+    if (!gameStr)
+      return false;
+
+    Util.loadFromSave(gameStr);
+
+    return false
+
   }
 }

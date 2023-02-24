@@ -76,13 +76,24 @@ export class TechTreeDrawService {
     this.rC.strokeStyle = "white"
     const startPosition = [this.canvas.width / 2, this.canvas.height / 2];
 
-    this.rC.fillText("" + this.dragOffset[0] + " - " + this.dragOffset[1], 400, 400);
+    // this.rC.fillText("" + this.dragOffset[0] + " - " + this.dragOffset[1], 400, 400);
 
     this.tempTechTree.nodes.forEach(node => {
       if (!this.rC)
         return
       const nodePosition = [node.pos[0] + startPosition[0] + this.dragOffset[0], node.pos[1] + startPosition[1] + this.dragOffset[1]]
-      this.rC.fillText(node.name, nodePosition[0], nodePosition[1]);
+      this.rC.font = this.rC.font.replace(/\d+px/, "16px");
+      this.rC.fillText(node.name, nodePosition[0], nodePosition[1] + (node.pos[1] <= 0 ? -10 : 20));
+
+
+      this.rC.beginPath()
+      this.rC.strokeStyle = "white"
+      // this.rC.strokeText("TEST", 0, 0);
+      const boxDim = [150, 30];
+      this.rC.strokeRect(nodePosition[0], nodePosition[1], boxDim[0], (node.pos[1] <= 0 ? -boxDim[1] : boxDim[1]));
+      this.rC.stroke();
+
+
       this.rC.beginPath();
       this.rC.moveTo(nodePosition[0], nodePosition[1]);
       const parentPosOffset = this.tempTechTree.getParentNodePos(node);
