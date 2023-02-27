@@ -11,6 +11,7 @@ export class TechTreeDrawService {
 
   private rC: CanvasRenderingContext2D | undefined | null;
   private canvas: HTMLCanvasElement | undefined;
+  private lastTickTime = new Date().getTime();
 
   private tempTechTree = new TechTree();
   private isDragging: boolean = false;
@@ -30,7 +31,7 @@ export class TechTreeDrawService {
     canvas.width = Settings.screenW;
 
     this.rC = canvas.getContext("2d");
-
+    console.log("Initialised")
     if (!this.rC) {
       return;
     }
@@ -42,8 +43,11 @@ export class TechTreeDrawService {
     this.canvas.addEventListener('mouseup', this.disableDrag.bind(this), false)
     this.canvas.addEventListener('mousemove', this.drag.bind(this), false)
 
-    // this.draw();
     setInterval(() => {
+      if (new Date().getTime() - this.lastTickTime < 20) {
+        return;
+      }
+      this.lastTickTime = new Date().getTime();
       this.draw()
     }, 10);
   }

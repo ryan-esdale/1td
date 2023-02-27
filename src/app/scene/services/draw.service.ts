@@ -42,6 +42,7 @@ export class DrawService {
       if (new Date().getTime() - this.lastTickTime < 10) {
         return;
       }
+      // this.lastTickTime = new Date().getTime();
       this.draw()
     }, 1);
   }
