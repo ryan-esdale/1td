@@ -210,11 +210,24 @@ export class TechTreeDrawService {
     rC.closePath();
     rC.stroke();
 
+    //Light/Dark edge highlights
+    rC.beginPath();
+    rC.strokeStyle = new Colour(200, 200, 200, 0.15).toString()
+    for (let i = 3; i < 6; i++) {
+      rC.lineTo(x + (hexDim - 3) * Math.cos(angle * i), y + (hexDim - 3) * Math.sin(angle * i));
+    }
+    rC.stroke();
+    rC.beginPath();
+    rC.strokeStyle = new Colour(0, 0, 0, 0.5).toString()
+    for (let i = 0; i < 2; i++) {
+      rC.lineTo(x + (hexDim - 3) * Math.cos(angle * i), y + (hexDim - 3) * Math.sin(angle * i));
+    }
+    rC.stroke();
 
     //Filled Hex
-    rC.fillStyle = new Colour(25, 25, 35, 255).toString();
-
     //TODO: Add some cool animation here
+
+    rC.fillStyle = new Colour(25, 25, 35, 255).toString();
     // if (x == 600 && y > 500 && y < 700) {
 
     //   if (this.hexOffset > 10 && this.hexOffsetDir == 1) {
@@ -233,25 +246,7 @@ export class TechTreeDrawService {
       rC.lineTo(x + hexDim * Math.cos(angle * i), y + hexDim * Math.sin(angle * i));
     }
     rC.closePath();
-    rC.stroke();
     rC.fill()
-
-    //Light/Dark edge highlights
-    rC.beginPath();
-    rC.strokeStyle = "white"
-    for (let i = 2; i < 6; i++) {
-      rC.lineTo(x + hexDim * Math.cos(angle * i), y + hexDim * Math.sin(angle * i));
-    }
-    rC.stroke();
-    rC.beginPath();
-    rC.strokeStyle = "black"
-    for (let i = -1; i < 2; i++) {
-      rC.lineTo(x + hexDim * Math.cos(angle * i), y + hexDim * Math.sin(angle * i));
-    }
-    rC.stroke();
-
-
-
 
     rC.restore();
   }
