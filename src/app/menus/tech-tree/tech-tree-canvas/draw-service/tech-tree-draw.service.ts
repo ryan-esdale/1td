@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GridService } from 'src/app/objects/background/services/grid.service';
 import { TechTree } from 'src/app/objects/tech-tree/TechTree';
+import { TechTreeNode, TechTreeNodeName } from 'src/app/objects/tech-tree/TechTreeNode';
 import { Colour } from 'src/app/objects/util/colour';
 import { Settings } from 'src/app/objects/util/settings';
 
@@ -22,6 +23,7 @@ export class TechTreeDrawService {
   private gradientArray = [0, 0, 0.15, 0.17, 1];
   private hexOffset = 0;
   private hexOffsetDir = 1;
+  private radialGradientPos = [0, 0];
 
   constructor() { }
 
@@ -53,8 +55,19 @@ export class TechTreeDrawService {
   }
 
   enableDrag(event: MouseEvent): void {
+    if (!this.canvas)
+      return;
+
+
+    const startPosition = [this.canvas.width / 2, this.canvas.height / 2];
     this.isDragging = true;
     this.dragStart = [event.pageX - this.dragOffset[0], event.pageY - this.dragOffset[1]];
+    this.tempTechTree.nodes.forEach(node => {
+      const nodePosition = [node.pos[0] + startPosition[0] + this.dragOffset[0], node.pos[1] + startPosition[1] + this.dragOffset[1]]
+      if (this.mouseIsOver([event.pageX, event.pageY - 110], nodePosition, 150, (node.pos[1] <= 0 ? -30 : 30))) {
+        node.highlight = false;
+      }
+    })
   }
 
   disableDrag(): void {
@@ -62,9 +75,42 @@ export class TechTreeDrawService {
   }
 
   drag(event: MouseEvent) {
+    if (!this.canvas)
+      return;
+
+
+    const startPosition = [this.canvas.width / 2, this.canvas.height / 2];
+    //Highligh any node the mouse is over
+    this.tempTechTree.nodes.forEach(node => {
+      const nodePosition = [node.pos[0] + startPosition[0] + this.dragOffset[0], node.pos[1] + startPosition[1] + this.dragOffset[1]]
+      if (this.mouseIsOver([event.pageX, event.pageY - 110], nodePosition, 150, (node.pos[1] <= 0 ? -30 : 30))) {
+        node.highlight = true;
+      } else {
+
+        node.highlight = false;
+      }
+    })
+
+    const nodePosition = [this.tempTechTree.nodes[0].pos[0] + startPosition[0] + this.dragOffset[0], this.tempTechTree.nodes[0].pos[1] + startPosition[1] + this.dragOffset[1]]
+
+
     if (!this.isDragging)
       return;
     this.dragOffset = [event.pageX - this.dragStart[0], event.pageY - this.dragStart[1]];
+
+
+  }
+
+  mouseIsOver(mousePos: number[], nodePos: number[], width: number, height: number): boolean {
+    if (mousePos[0] >= nodePos[0] && mousePos[0] <= (nodePos[0] + width)) {
+
+      if ((height >= 0 && mousePos[1] >= nodePos[1] && mousePos[1] <= nodePos[1] + height)
+        || (height < 0 && mousePos[1] <= nodePos[1] && mousePos[1] >= nodePos[1] + height)) {
+
+        return true;
+      }
+    }
+    return false;
   }
 
   draw(): void {
@@ -102,6 +148,8 @@ export class TechTreeDrawService {
       this.rC.strokeRect(nodePosition[0], nodePosition[1], boxDim[0], (node.pos[1] <= 0 ? -boxDim[1] : boxDim[1]));
       this.rC.stroke();
       this.rC.fillStyle = new Colour(25, 25, 35, 255).toString();
+      if (node.highlight)
+        this.rC.fillStyle = new Colour(145, 145, 155, 255).toString();
       this.rC.fillRect(nodePosition[0], nodePosition[1], boxDim[0], (node.pos[1] <= 0 ? -boxDim[1] : boxDim[1]));
 
 
@@ -130,7 +178,7 @@ export class TechTreeDrawService {
 
       this.rC.font = this.rC.font.replace(/\d+px/, "16px");
       this.rC.fillStyle = "white";
-      this.rC.fillText(node.name, nodePosition[0], nodePosition[1] + (node.pos[1] <= 0 ? -10 : 20));
+      this.rC.fillText(node.name + " " + node.highlight, nodePosition[0], nodePosition[1] + (node.pos[1] <= 0 ? -10 : 20));
     })
 
     this.rC.restore();
@@ -144,29 +192,44 @@ export class TechTreeDrawService {
     this.rC.globalCompositeOperation = 'destination-over';
 
     const extraSpace = 300;
-    let gradient = this.rC?.createLinearGradient(-extraSpace, 0, this.canvas.width + extraSpace, this.canvas.height);
-    gradient?.addColorStop(this.gradientArray[0], "black");
-    gradient?.addColorStop(this.gradientArray[1], "black");
-    gradient?.addColorStop(this.gradientArray[2], "gold");
-    gradient?.addColorStop(this.gradientArray[3], "black");
-    gradient?.addColorStop(this.gradientArray[4], "black");
+    const linearGradient = true;
+    if (linearGradient) {
 
-    this.gradientArray[1] += 0.001;
-    this.gradientArray[2] += 0.001;
-    this.gradientArray[3] += 0.001;
+      let gradient = this.rC?.createLinearGradient(-extraSpace, 0, this.canvas.width + extraSpace, this.canvas.height);
+      gradient?.addColorStop(this.gradientArray[0], "black");
+      gradient?.addColorStop(this.gradientArray[1], "black");
+      gradient?.addColorStop(this.gradientArray[2], "gold");
+      gradient?.addColorStop(this.gradientArray[3], "black");
+      gradient?.addColorStop(this.gradientArray[4], "black");
+
+      this.gradientArray[1] += 0.001;
+      this.gradientArray[2] += 0.001;
+      this.gradientArray[3] += 0.001;
 
 
-    if (this.gradientArray[1] > 1)
-      this.gradientArray[1] -= 1;
+      if (this.gradientArray[1] > 1)
+        this.gradientArray[1] -= 1;
 
-    if (this.gradientArray[2] > 1)
-      this.gradientArray[2] -= 1;
+      if (this.gradientArray[2] > 1)
+        this.gradientArray[2] -= 1;
 
-    if (this.gradientArray[3] > 1)
-      this.gradientArray[3] -= 1;
+      if (this.gradientArray[3] > 1)
+        this.gradientArray[3] -= 1;
 
-    this.rC.strokeStyle = gradient
+      this.rC.strokeStyle = gradient
+    } else {
 
+      let gradient = this.rC?.createRadialGradient(this.radialGradientPos[0], this.radialGradientPos[1], 0, this.radialGradientPos[0], this.radialGradientPos[1], 170);
+      gradient.addColorStop(0, "gold");
+      // gradient.addColorStop(0.9, "gold");
+      gradient.addColorStop(1, "black");
+      this.radialGradientPos[0] += -2 + Math.random() * 10;
+      this.radialGradientPos[1] += -2 + Math.random() * 10;
+      if (this.radialGradientPos[0] > this.canvas.width + 200 || this.radialGradientPos[0] > this.canvas.width + 200) {
+        this.radialGradientPos = [-100, -100];
+      }
+      this.rC.strokeStyle = gradient
+    }
 
     this.rC.fillStyle = "white"
     this.drawHexGrid(this.canvas.width, this.canvas.height, this.rC);
@@ -220,13 +283,13 @@ export class TechTreeDrawService {
     for (let i = 3; i < 6; i++) {
       rC.lineTo(x + (hexDim - 3) * Math.cos(angle * i), y + (hexDim - 3) * Math.sin(angle * i));
     }
-    rC.stroke();
+    // rC.stroke();
     rC.beginPath();
     rC.strokeStyle = new Colour(0, 0, 0, 0.5).toString()
     for (let i = 0; i < 2; i++) {
       rC.lineTo(x + (hexDim - 3) * Math.cos(angle * i), y + (hexDim - 3) * Math.sin(angle * i));
     }
-    rC.stroke();
+    // rC.stroke();
 
     //Filled Hex
     //TODO: Add some cool animation here
@@ -250,7 +313,7 @@ export class TechTreeDrawService {
       rC.lineTo(x + hexDim * Math.cos(angle * i), y + hexDim * Math.sin(angle * i));
     }
     rC.closePath();
-    rC.fill()
+    // rC.fill()
 
     rC.restore();
   }

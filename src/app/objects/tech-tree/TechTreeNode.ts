@@ -11,6 +11,7 @@ export class TechTreeNode {
       public previousNode: TechTreeNodeName | undefined;
       public completed: boolean;
       public pos: number[]
+      public highlight: boolean = false;
 
       constructor(
             name: TechTreeNodeName,
